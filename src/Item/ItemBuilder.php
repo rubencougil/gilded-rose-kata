@@ -30,8 +30,16 @@ class ItemBuilder
 
     public function build(): Item
     {
-        if ($this->name === null || $this->sellIn === null || $this->quality === null) {
-            throw new \InvalidArgumentException('All properties must be set before building the item.');
+        if (!$this->name) {
+            throw new \InvalidArgumentException('Item name is required');
+        }
+
+        if ($this->sellIn === null) {
+            throw new \InvalidArgumentException('Item sellIn is required');
+        }
+
+        if ($this->quality === null || $this->quality < 0) {
+            throw new \InvalidArgumentException('Item quality is required and must be greater than or equal to 0');
         }
 
         return new Item($this->name, $this->sellIn, $this->quality);
