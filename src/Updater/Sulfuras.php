@@ -6,7 +6,7 @@ class Sulfuras extends ItemUpdater
 {
     public function validate(): void
     {
-        if (!$this->item->quality = 80) {
+        if ($this->item->quality !== 80) {
             throw new \InvalidArgumentException('Quality must be 80');
         }
     }

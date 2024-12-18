@@ -4,7 +4,7 @@ namespace GildedRose\Updater;
 
 use GildedRose\Item\Item;
 
-abstract class ItemUpdater implements Updater
+abstract class ItemUpdater implements Updater, Validator
 {
     protected Item $item;
 
@@ -13,6 +13,18 @@ abstract class ItemUpdater implements Updater
      */
     public function __construct(Item $item)
     {
+        if (!$item->name) {
+            throw new \InvalidArgumentException('Item name is required');
+        }
+
+        if ($item->sellIn === null) {
+            throw new \InvalidArgumentException('Item sellIn is required');
+        }
+
+        if ($item->quality === null || $item->quality < 0) {
+            throw new \InvalidArgumentException('Item quality is required and must be greater than or equal to 0');
+        }
+
         $this->item = $item;
         $this->validate();
     }
